@@ -120,12 +120,10 @@ else if(busy)
     data<={data[62:0],1'b0};
 //mdio_dir
 always_comb 
-begin 
-if(state==st_rd)
+if(state==st_rd||state==st_idle)           //空闲状态，或者读数据时,MAC不驱动MDIO信号
     mdio_dir=1'b0;
 else
-    mdio_dir=1'b1;    
-end
+    mdio_dir=1'b1;
 //mdo
 always_comb
 begin
@@ -166,5 +164,6 @@ else
     o_vld<=0;
 //
 assign eth_rst_n=rst_n;
-assign eth_mdc=clk;
+assign eth_mdc=~clk;
+assign rd_data=data_recv;
 endmodule
