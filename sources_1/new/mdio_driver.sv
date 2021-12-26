@@ -149,8 +149,8 @@ begin
         counter<=counter+1;
 end
 //data_recv
-always_ff@(posedge clk,negedge rst_n)
-if(rst_n)
+always_ff@(posedge eth_mdc,negedge rst_n)
+if(!rst_n)
     data_recv<=0;
 else if(state==st_rd&&counter>47&&counter<=63)
     data_recv<={data_recv[14:0],eth_mdio};                           //高位先读取
